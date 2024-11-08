@@ -1,0 +1,6 @@
+azure-functions
+requests
+azure-storage-blob
+pytest
+flake8
+pytest-asyncio
