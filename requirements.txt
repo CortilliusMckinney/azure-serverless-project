@@ -1,6 +1,11 @@
+# Core Azure Packages
 azure-functions
-requests
 azure-storage-blob
+
+# HTTP Client
+requests
+
+# Testing and Quality Tools
 pytest
-flake8
 pytest-asyncio
+flake8
