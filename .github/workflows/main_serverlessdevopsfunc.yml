@@ -4,11 +4,9 @@ on:
     branches:
       - main
   workflow_dispatch:
-
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
   PYTHON_VERSION: '3.11'
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,37 +19,12 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Print Working Directory
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "Directory contents:"
-          ls -la
-
-      - name: Verify requirements.txt
-        run: |
-          if [ -f "requirements.txt" ]; then
-            echo "requirements.txt found!"
-            echo "Content of requirements.txt:"
-            cat requirements.txt
-          else
-            echo "requirements.txt not found!"
-            echo "Directory contents:"
-            ls -la
-          fi
-
       - name: Create and activate virtual environment
         run: |
           python -m venv .venv
           source .venv/bin/activate
-          echo "Python location: $(which python)"
-          echo "Pip location: $(which pip)"
-
-      - name: Install dependencies
-        run: |
-          source .venv/bin/activate
           python -m pip install --upgrade pip
-          pip install -r ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/requirements.txt
-          pip list
+          pip install -r requirements.txt
 
       - name: Zip artifact for deployment
         run: |
