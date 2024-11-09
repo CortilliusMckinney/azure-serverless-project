@@ -1,3 +1,10 @@
+# Azure Functions specific
+local.settings.json
+.python_packages
+.venv
+__pycache__
+.vscode
+
 # macOS system files
 .DS_Store
 
