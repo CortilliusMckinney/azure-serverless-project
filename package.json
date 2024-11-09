@@ -1,0 +1,8 @@
+{
+    "name": "azure-serverless-project",
+    "version": "1.0.0",
+    "description": "Azure Functions Blob Trigger Project",
+    "scripts": {
+        "start": "func start"
+    }
+}
