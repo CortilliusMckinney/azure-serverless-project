@@ -1,11 +1,11 @@
 # Core Azure Packages
-azure-functions
-azure-storage-blob
+azure-functions==1.21.3
+azure-storage-blob==12.23.1
 
 # HTTP Client
-requests
+requests==2.32.3
 
 # Testing and Quality Tools
-pytest
-pytest-asyncio
-flake8
+pytest==8.3.3
+pytest-asyncio==0.24.0
+flake8==7.1.1
