@@ -1,24 +1,30 @@
 name: Build and deploy Python project to Azure Function App - serverlessdevopsfunc
+
 on:
   push:
     branches:
       - main
   workflow_dispatch:
+
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'  # Ensure the root directory is packaged
   PYTHON_VERSION: '3.11'
+
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+      # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Step 2: Setup Python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      # Step 3: Create and activate virtual environment
       - name: Create and activate virtual environment
         run: |
           python -m venv .venv
@@ -26,14 +32,19 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # Step 4: Zip artifact for deployment
       - name: Zip artifact for deployment
         run: |
           zip release.zip ./* -r
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
+      # Step 5: Deploy to Azure Function App
+      - name: Deploy to Azure Function App
+        uses: azure/functions-action@v1
         with:
-          name: python-app
-          path: |
-            release.zip
-            !.venv/
+          app-name: serverlessdevopsfunc  # Replace with your Function App name
+          package: './release.zip'
+
+      # Step 6: Verify Deployment (optional)
+      - name: Verify host.json
+        run: |
+          echo "Checking host.json deployment"
