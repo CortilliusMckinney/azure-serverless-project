@@ -13,42 +13,50 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Get all history
 
       - name: Setup Python version
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      # Add Debug Steps Here
-      - name: Debug Environment
+      # Add Extensive Debug Steps
+      - name: Debug Repository Structure
         run: |
-          echo "Current working directory:"
+          echo "==== CURRENT LOCATION ===="
           pwd
-          echo "\nDirectory contents:"
+          echo "\n==== DIRECTORY CONTENTS ===="
           ls -la
-          echo "\nPython version:"
-          python --version
-          echo "\nPip version:"
-          pip --version
-          echo "\nFull directory tree:"
-          tree -a
+          echo "\n==== FULL DIRECTORY TREE ===="
+          find . -type f
+          echo "\n==== GIT STATUS ===="
+          git status
+          echo "\n==== REQUIREMENTS.TXT SEARCH ===="
+          find . -name requirements.txt
+          echo "\n==== WORKING DIRECTORY ===="
+          echo $GITHUB_WORKSPACE
 
       - name: Create and start virtual environment
         run: |
           python -m venv venv
           source venv/bin/activate
 
-      # Add more debug steps before installation
-      - name: Pre-installation check
+      # Create requirements.txt if not exists
+      - name: Ensure requirements.txt exists
         run: |
-          echo "Checking for requirements.txt:"
-          test -f requirements.txt && echo "Found requirements.txt" || echo "requirements.txt NOT FOUND"
-          echo "\nContent of requirements.txt:"
-          cat requirements.txt || echo "Could not read requirements.txt"
+          if [ ! -f "requirements.txt" ]; then
+            echo "Creating requirements.txt"
+            echo "azure-functions==1.21.3
+azure-storage-blob==12.23.1
+requests==2.32.3
+pytest==8.3.3
+pytest-asyncio==0.24.0
+flake8==7.1.1" > requirements.txt
+            cat requirements.txt
+          fi
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      [Rest of your existing workflow...]
