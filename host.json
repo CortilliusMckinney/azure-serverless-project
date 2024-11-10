@@ -14,5 +14,5 @@
     },
     "functionTimeout": "00:05:00",
     "functions": ["ProcessNewBlob"],
-    "watchDirectories": ["ProcessNewBlob"]
+    "watchDirectories": ["src/ProcessNewBlob"]
 }
