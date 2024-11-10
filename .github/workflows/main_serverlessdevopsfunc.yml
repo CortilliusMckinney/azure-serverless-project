@@ -7,6 +7,8 @@ on:
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
   PYTHON_VERSION: '3.11'
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true  # Added this line to force Node20  
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -23,7 +25,7 @@ jobs:
 
       # Step 3: Azure Login
       - name: Azure Login
-        uses: azure/login@v2
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
