@@ -4,11 +4,9 @@ on:
     branches:
       - main
   workflow_dispatch:
-
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
   PYTHON_VERSION: '3.11'
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -37,19 +35,35 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Step 5: Zip artifact for deployment
+      # Step 5: Verify host.json before packaging
+      - name: Verify host.json
+        run: |
+          echo "Checking host.json content:"
+          cat host.json
+          echo "Validating JSON syntax:"
+          python -m json.tool < host.json
+
+      # Step 6: Zip artifact for deployment
       - name: Zip artifact for deployment
         run: |
+          echo "Current directory contents before zip:"
+          ls -la
+          echo "Creating zip file..."
           zip release.zip ./* -r
+          echo "Verifying zip contents:"
+          unzip -l release.zip | grep host.json
+          echo "Zip file size:"
+          ls -lh release.zip
 
-      # Step 6: Deploy to Azure Function App
+      # Step 7: Deploy to Azure Function App
       - name: Deploy to Azure Function App
         uses: azure/functions-action@v1
         with:
           app-name: serverlessdevopsfunc
           package: './release.zip'
 
-      # Step 7: Verify Deployment
-      - name: Verify host.json
+      # Step 8: Verify Deployment
+      - name: Verify Deployment
         run: |
-          echo "Checking host.json deployment"
+          echo "Checking deployment status"
+          echo "Function App name: serverlessdevopsfunc"
