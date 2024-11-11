@@ -1,7 +1,7 @@
 import logging
 import azure.functions as func
 
-def main(myblob: func.InputStream):     # Keep as 'main' for Azure Functions
+def main(myblob: func.InputStream):
     # Read the blob content
     blob_content = myblob.read()
     
@@ -9,7 +9,8 @@ def main(myblob: func.InputStream):     # Keep as 'main' for Azure Functions
                  f"Name: {myblob.name}\n"
                  f"Size: {myblob.length} bytes")
     
-    return blob_content
+    # Remove the return statement
+    # Just process the blob and log
 
 # Alias for testing purposes
 ProcessNewBlob = main
