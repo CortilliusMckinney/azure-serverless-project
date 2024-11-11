@@ -2,6 +2,7 @@
 local.settings.json
 .python_packages
 .venv
+venv/  
 __pycache__
 .vscode
 
