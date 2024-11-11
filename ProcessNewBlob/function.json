@@ -4,7 +4,7 @@
       "name": "myblob",
       "type": "blobTrigger",
       "direction": "in",
-      "path": "samples-workitems/{name}",
+      "path": "myblobfiles/{name}",     // Changed from samples-workitems
       "connection": "AzureWebJobsStorage"
     }
   ],
